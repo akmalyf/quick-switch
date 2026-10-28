@@ -1,0 +1,137 @@
+{
+  "name": "quick-switch",
+  "displayName": "Quick Switch Project",
+  "description": "Quickly switch between projects: recent projects popup and next/previous project window.",
+  "version": "1.0.0",
+  "publisher": "akmalyf",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.140.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "project",
+    "switch",
+    "recent",
+    "window",
+    "project manager",
+    "workspace"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "quickSwitch.switch",
+        "title": "Switch Project...",
+        "category": "Quick Switch"
+      },
+      {
+        "command": "quickSwitch.nextWindow",
+        "title": "Next Project Window",
+        "category": "Quick Switch"
+      },
+      {
+        "command": "quickSwitch.previousWindow",
+        "title": "Previous Project Window",
+        "category": "Quick Switch"
+      },
+      {
+        "command": "quickSwitch.clearHistory",
+        "title": "Clear Project History",
+        "category": "Quick Switch"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "quickSwitch.switch",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p"
+      },
+      {
+        "command": "quickSwitch.nextWindow",
+        "key": "ctrl+alt+]",
+        "mac": "cmd+alt+`"
+      },
+      {
+        "command": "quickSwitch.previousWindow",
+        "key": "ctrl+alt+[",
+        "mac": "cmd+shift+alt+`"
+      }
+    ],
+    "configuration": {
+      "title": "Quick Switch",
+      "properties": {
+        "quickSwitch.openIn": {
+          "type": "string",
+          "enum": [
+            "ask",
+            "newWindow",
+            "currentWindow"
+          ],
+          "enumDescriptions": [
+            "Ask every time whether to use this window or a new one.",
+            "Always open in a new window.",
+            "Always replace the current window."
+          ],
+          "default": "ask",
+          "description": "Where to open a project that is not already open in another window."
+        },
+        "quickSwitch.showStatusBarItem": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the current project name in the status bar; click it to switch project."
+        },
+        "quickSwitch.historySize": {
+          "type": "number",
+          "default": 50,
+          "description": "Maximum number of projects kept in the history."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --minify --sourcemap",
+    "watch": "npm run build -- --watch",
+    "typecheck": "tsc --noEmit",
+    "vscode:prepublish": "npm run typecheck && npm run build",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/vscode": "^1.140.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  },
+  "icon": "images/icon.png",
+  "author": {
+    "name": "Akmal"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akmalyf/quick-switch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akmalyf/quick-switch/issues"
+  },
+  "homepage": "https://github.com/akmalyf/quick-switch#readme",
+  "galleryBanner": {
+    "color": "#2F2A6B",
+    "theme": "dark"
+  },
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "capabilities": {
+    "virtualWorkspaces": true,
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  }
+}
